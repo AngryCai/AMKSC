@@ -2,11 +2,11 @@ import sys
 import time
 import warnings
 
-from Toolbox.Preprocessing import Processor, CLASS_MAP_COLOR_16, CLASS_MAP_COLOR_B, CLASS_MAP_COLOR_8
+from Preprocessing import Processor, CLASS_MAP_COLOR_16, CLASS_MAP_COLOR_B, CLASS_MAP_COLOR_8
 
 warnings.filterwarnings("ignore")
 
-sys.path.append('/home/caiyaom/python_codes/')
+sys.path.append('./')
 sys.path.append('/root/python_codes/')
 import os
 import numpy as np
@@ -122,7 +122,7 @@ if __name__ == "__main__":
     # model = KSCAnchorGraph(class_num, n_anchor=args.n_anchor, lambda_=args.weight_decay, anchor_type=args.anchor_type,
     #                        precomputed_anchors=precomputed_anchors, smooth_coef=args.smooth_coef,
     #                        max_iter=args.max_iter, epsilon=1e-5, device=DEVICE, kernel=args.kernel)
-    model = KSCAnchorGraph_TV(spatial_size, class_num, n_anchor=args.n_anchor, lambda_tv=args.lambda_TV,
+    model = AMKSC(spatial_size, class_num, n_anchor=args.n_anchor, lambda_tv=args.lambda_TV,
                               anchor_type=args.anchor_type, precomputed_anchors=precomputed_anchors,
                               smooth_coef=args.smooth_coef, weight_decay=args.weight_decay,
                               max_iter=args.max_iter, n_kernel_sampling=args.n_kernel_sampling, epsilon=1e-5,

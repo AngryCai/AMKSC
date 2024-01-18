@@ -2,7 +2,7 @@ import sys
 import time
 import warnings
 
-from Toolbox.Preprocessing import Processor, CLASS_MAP_COLOR_16, CLASS_MAP_COLOR_B, CLASS_MAP_COLOR_8
+from Preprocessing import Processor, CLASS_MAP_COLOR_16, CLASS_MAP_COLOR_B, CLASS_MAP_COLOR_8
 
 warnings.filterwarnings("ignore")
 

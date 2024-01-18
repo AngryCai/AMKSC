@@ -12,7 +12,7 @@ workers: 1
 #seed: 111
 
 dataset: "Trento"
-dataset_root: 'D:\\Python\\Datasets\\MultiModalRS-Data\\HSI-Lidar-Trento\\'
+dataset_root: 'E:\Academic\MultiModalRS-Data\\HSI-Lidar-Trento\\'
 model_path:  "save/Trento"
 seed: 42
 
