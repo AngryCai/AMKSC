@@ -115,10 +115,8 @@ if __name__ == "__main__":
     else:
         precomputed_anchors = None
     start_time = time.time()
-    # model = KSCAnchorGraph(class_num, n_anchor=args.n_anchor, lambda_=args.weight_decay, anchor_type=args.anchor_type,
-    #                        precomputed_anchors=precomputed_anchors, smooth_coef=args.smooth_coef,
-    #                        max_iter=args.max_iter, epsilon=1e-5, device=DEVICE, kernel=args.kernel)
-    model = KSCAnchorGraph_TV(spatial_size, class_num, n_anchor=args.n_anchor_in, lambda_tv=args.lambda_TV,
+
+    model = AMKSC(spatial_size, class_num, n_anchor=args.n_anchor_in, lambda_tv=args.lambda_TV,
                               anchor_type=args.anchor_type, precomputed_anchors=precomputed_anchors,
                               smooth_coef=args.smooth_coef, weight_decay=args.weight_decay,
                               max_iter=args.max_iter, n_kernel_sampling=args.n_kernel_sampling, epsilon=1e-5,
@@ -147,10 +145,10 @@ if __name__ == "__main__":
     mu = model.mu.cpu().numpy()
     singular_values = model.singular_values
     doubly_stochastic_Z = model.doubly_stochastic_Z.cpu().numpy()
-    np.savez(f'results/{args.dataset}-logs.npz', Z=Z, normlized_Z=doubly_stochastic_Z, embedding=emb,
-             singular_values=singular_values,
-             mu=mu, time=running_time, acc=acc,
-             kappa=kappa, nmi=nmi, ari=ari, pur=pur, bcubed_F=bcubed_F, ca=ca, y_pred=y_pred_2D_1, params=args)
+    # np.savez(f'results/{args.dataset}-logs.npz', Z=Z, normlized_Z=doubly_stochastic_Z, embedding=emb,
+    #          singular_values=singular_values,
+    #          mu=mu, time=running_time, acc=acc,
+    #          kappa=kappa, nmi=nmi, ari=ari, pur=pur, bcubed_F=bcubed_F, ca=ca, y_pred=y_pred_2D_1, params=args)
 
     # plt.matshow(Z[0, :].reshape(sub_gt1.shape), cmap='jet')
     # plt.show()
@@ -173,7 +171,7 @@ if __name__ == "__main__":
     # # generate to the out-of-samples
     # # ======================================
     start_time = time.time()
-    model_oos = KSCAnchorGraph_TV_OOS(sub_gt2.shape, class_num, n_anchor=args.n_anchor_out, lambda_tv=args.lambda_TV,
+    model_oos = AMKSC_OOS(sub_gt2.shape, class_num, n_anchor=args.n_anchor_out, lambda_tv=args.lambda_TV,
                               anchor_type=args.anchor_type, precomputed_anchors=precomputed_anchors,
                               smooth_coef=args.smooth_coef, weight_decay=args.weight_decay,
                               max_iter=args.max_iter, n_kernel_sampling=args.n_kernel_sampling, epsilon=1e-5,
@@ -214,16 +212,16 @@ if __name__ == "__main__":
     # ## ====================================
     # # show classification map for out of sample data
     # # ======================================
-    p = Processor()
-    pred_2d_2 = y_pred_oos.reshape(sub_gt2.shape)
-    gt_pred_all = np.concatenate((y_pred_2D_1, pred_2d_2), axis=0)
-    save_name = f'Figures/classmap-OOS-{args.dataset}-{acc * 10000:.0f}.pdf'
-    gt_color = p.colorize_map(gt_pred_all.reshape(gt.shape), colors=CLASS_MAP_COLOR_16, background_color=None)
-
-    fig, ax = plt.subplots()
-    ax.imshow(gt_color)
-    plt.axis('off')
-    plt.tight_layout()
-    print(save_name)
-    fig.savefig(save_name, format='pdf', bbox_inches='tight', pad_inches=0, dpi=300)
-    plt.show()
+    # p = Processor()
+    # pred_2d_2 = y_pred_oos.reshape(sub_gt2.shape)
+    # gt_pred_all = np.concatenate((y_pred_2D_1, pred_2d_2), axis=0)
+    # save_name = f'Figures/classmap-OOS-{args.dataset}-{acc * 10000:.0f}.pdf'
+    # gt_color = p.colorize_map(gt_pred_all.reshape(gt.shape), colors=CLASS_MAP_COLOR_16, background_color=None)
+    #
+    # fig, ax = plt.subplots()
+    # ax.imshow(gt_color)
+    # plt.axis('off')
+    # plt.tight_layout()
+    # print(save_name)
+    # fig.savefig(save_name, format='pdf', bbox_inches='tight', pad_inches=0, dpi=300)
+    # plt.show()
